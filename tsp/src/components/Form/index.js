@@ -1,6 +1,6 @@
 import { func } from "prop-types";
 import React, {useState} from "react";
-import {TextInput, View, Text, Button} from "react-native"
+import {TextInput, View, Text, Button, FlatList} from "react-native"
 import ResultImc from "../Resultimc/";
 
 export default function Form(){
@@ -8,7 +8,8 @@ export default function Form(){
 const [endereço_1, set_endereço_1] = useState(null)
 const [endereço_2, set_endereço_2] = useState(null)
 const [endereço_3, set_endereço_3] = useState(null)
-const [messageImc, setmessageImc]= useState("preencha o peso e altura")
+const [enderecos_juntos, set_enderecos_juntos] = [endereço_1, endereço_2,endereço_3]
+const [message, setmessage]= useState("Calcule a rota")
 const [imc, setImc]= useState(null)
 const [TextButton, setTextButton]= useState('Calcular')
 
@@ -28,6 +29,21 @@ const [TextButton, setTextButton]= useState('Calcular')
 //     setImc(null)
 //     setTextButton("Calcular")
 // }
+
+    const dados = [
+        {key: endereço_1},
+        {key: endereço_2},
+        {key : endereço_3}
+    ]
+    function retorna_enderecos (){
+        setmessage ("Os endereços cadastrados foram: ")
+        return(
+                <FlatList
+                    data = {dados}
+                    renderItem = {({item}) => <Text> {item.key}</Text>}
+                />
+        )
+    }
 
     return (
         <View> 
@@ -55,11 +71,11 @@ const [TextButton, setTextButton]= useState('Calcular')
                 /> 
 
                 <Button 
-                onPress = {()=>PrintaEnds() }
-                title= "Calcular Rota"
+                onPress = {()=>retorna_enderecos() }
+                title= "Retorna Endereços"
                 />
             </View>
-            <ResultImc messageResultImc = {messageImc} ResultImc = {imc}/>
+            <ResultImc messageResultImc = {message} ResultImc = {enderecos_juntos}/>
         </View>
     );
 }
